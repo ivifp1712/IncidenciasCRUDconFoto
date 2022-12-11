@@ -79,14 +79,23 @@ class BlankFragment : Fragment() {
                 // añadir cliente a base de datos sqlite
                 var dbHandler:DbHelper= DbHelper(requireContext())
                 //dbHandler.onUpgrade(dbHandler.writableDatabase,1,2)
-                dbHandler.addIncidencia(nuevaIncidencia)
-                println("Cliente añadido")
-                //toast de cliente añadido
-                Toast.makeText(requireContext(),"Cliente añadido",Toast.LENGTH_SHORT).show()
-                //cambiar de fragment
-                val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.fragmentContainerView2, BlankFragment2())
-                fragmentTransaction.commit()
+                // if empty
+                if (codigo.isEmpty() || nombre.isEmpty() || facturacion.isEmpty()){
+                    Toast.makeText(requireContext(), "Rellene todos los campos", Toast.LENGTH_SHORT).show()
+                }else {
+
+                    if (dbHandler.addIncidencia(nuevaIncidencia)) {
+                        Toast.makeText(requireContext(), "Incidencia añadida", Toast.LENGTH_SHORT).show()
+                        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+                        fragmentTransaction.replace(R.id.fragmentContainerView2, BlankFragment2())
+                        fragmentTransaction.commit()
+
+                    } else {
+                        Toast.makeText(requireContext(), "Id ya existente, comprueba los campos", Toast.LENGTH_SHORT).show()
+                    }
+                    //dbHandler.addIncidencia(nuevaIncidencia)
+
+                }
                 /*
                 fun addItem(){
 

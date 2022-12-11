@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
+import android.widget.Toast
 
 class DbHelper(context: Context):SQLiteOpenHelper
     (context,"base.db",null,1) {
@@ -30,16 +31,29 @@ class DbHelper(context: Context):SQLiteOpenHelper
         onCreate(p0)
     }
 
-    fun addIncidencia(incidencia:Incidencias){
-        val db=this.writableDatabase
-        val query="INSERT INTO $TABLE VALUES (?,?,?,?)"
-        val statement=db.compileStatement(query)
-        statement.bindString(1,incidencia.codigo)
-        statement.bindString(2,incidencia.nombre)
-        statement.bindString(3,incidencia.descripcion)
-        statement.bindBlob(4,incidencia.foto)
-        statement.executeInsert()
-        print("llamando a insertar Incidencias")
+    fun addIncidencia(incidencia:Incidencias): Boolean {
+        // comprobar si existe
+        val sql = "SELECT * FROM " + TABLE + " WHERE " + ID + " = " + incidencia.codigo
+        val db1 = this.writableDatabase
+        val cursor = db1.rawQuery(sql, null)
+        if (cursor.count <= 0) {
+            val db=this.writableDatabase
+            val query="INSERT INTO $TABLE VALUES (?,?,?,?)"
+            val statement=db.compileStatement(query)
+            statement.bindString(1,incidencia.codigo)
+            statement.bindString(2,incidencia.nombre)
+            statement.bindString(3,incidencia.descripcion)
+            statement.bindBlob(4,incidencia.foto)
+            statement.executeInsert()
+            print("llamando a insertar Incidencias")
+            return true
+        } else {
+            return false
+        }
+
+
+
+
 
     }
     fun editIncidencia(codigo: String, nombre:String, descripcion:String, foto:ByteArray){
