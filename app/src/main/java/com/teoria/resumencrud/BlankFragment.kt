@@ -78,7 +78,7 @@ class BlankFragment : Fragment() {
 
                 // añadir cliente a base de datos sqlite
                 var dbHandler:DbHelper= DbHelper(requireContext())
-                dbHandler.onUpgrade(dbHandler.writableDatabase,1,2)
+                //dbHandler.onUpgrade(dbHandler.writableDatabase,1,2)
                 dbHandler.addIncidencia(nuevaIncidencia)
                 println("Cliente añadido")
                 //toast de cliente añadido

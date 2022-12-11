@@ -31,14 +31,6 @@ class DbHelper(context: Context):SQLiteOpenHelper
     }
 
     fun addIncidencia(incidencia:Incidencias){
-//        val values=ContentValues()
-//        values.put(ID,incidencia.codigo)
-//        values.put(NOMBRE,incidencia.nombre)
-//        values.put(INCIDENCIA,incidencia.descripcion)
-//        values.put(FOTO,incidencia.foto)
-//        val db=this.writableDatabase
-//        db.insert(TABLE,null,values)
-        //insert into incidencias values blind
         val db=this.writableDatabase
         val query="INSERT INTO $TABLE VALUES (?,?,?,?)"
         val statement=db.compileStatement(query)
@@ -52,13 +44,6 @@ class DbHelper(context: Context):SQLiteOpenHelper
     }
     fun editIncidencia(codigo: String, nombre:String, descripcion:String, foto:ByteArray){
         print("llamando a editar Incidencias")
-//        val values=ContentValues()
-//        values.put(NOMBRE,nombre)
-//        values.put(INCIDENCIA,descripcion)
-//        val db=this.writableDatabase
-//        db.update(TABLE,values,"id=?", arrayOf(codigo))
-
-        //update incidencias set nombre=?, incidencia=?, foto=? where id=?
         val db=this.writableDatabase
         val query="UPDATE $TABLE SET $NOMBRE=?, $INCIDENCIA=?, $FOTO=? WHERE $ID=?"
         val statement=db.compileStatement(query)
